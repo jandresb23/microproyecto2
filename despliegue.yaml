@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: model-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: model-app
+    spec:
+     containers:
+     - name: model-app
+       image: jandres23/model-app:latest
+       imagePullPolicy: Always
+       ports:
+       - containerPort: 8080

@@ -1,0 +1,86 @@
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+inference 0.16.2 requires packaging~=24.0, which is not installed.
+matplotlib 3.9.2 requires packaging>=20.0, which is not installed.
+onnxruntime 1.15.1 requires packaging, which is not installed.
+scikit-image 0.24.0 requires packaging>=21, which is not installed.
+skypilot 0.5.0 requires packaging, which is not installed.
+transformers 4.45.2 requires packaging>=20.0, which is not installed.
+inference 0.16.2 requires numpy<=1.26.4, but you have numpy 2.1.3 which is incompatible.
+
+
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+inference 0.16.2 requires numpy<=1.26.4, but you have numpy 2.1.3 which is incompatible.
+inference 0.16.2 requires skypilot[aws,gcp]==0.5.0, but you have skypilot 0.7.0 which is incompatible.
+
+
+
+*************************************
+pip install numpy==1.23.5
+
+pip install mxnet -f https://dist.mxnet.io/python/cpu
+
+
+pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+pip install torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+
+pip install --upgrade gluoncv
+
+*************************************
+Upload the model to Docker Hub
+*************************************
+sudo docker login
+
+-------------------------------------
+sudo docker tag <your-image-id> <your-docker-hub-name>/<your-app-name>
+
+sudo docker push <your-docker-hub-name>/<your-app-name>
+-------------------------------------
+
+*************************************
+Deploy the model to a Kubernetes cluster
+*************************************
+
+(Conectarse al clúster - CLI de Azure)
+
+az login
+
+az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+
+
+(Conectarse al clúster - PowerShell)
+
+Install-Module -Name Az
+
+Connect-AzAccount
+*************************************
+
+kubectl get nodes
+
+kubectl cluster-info
+
+
+(Implementación de la aplicación)
+
+nano aks-store-quickstart.yaml --> Crear .yaml
+
+
+(Prueba de la aplicación)
+
+kubectl apply -f aks-store-quickstart.yaml
+
+kubectl expose deployment kubermatic-dl-deployment  --type=LoadBalancer --port 80 --target-port 5000
+
+
+*************************************
+Probar App desde una terminal:
+*************************************
+curl -X POST -F "img=@C:\Users\dido0\Desktop\avi1.jpg" http://localhost:5000/predict
+
+*************************************
+Probar App en Azure:
+*************************************
+curl -X POST -F img=@avi1.jpg http://48.211.178.126/predict
+curl -X POST -F img=@C:/Users/dido0/Desktop/avi1.jpg http://48.211.178.126/predict
